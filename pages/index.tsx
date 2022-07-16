@@ -4,7 +4,7 @@ import PostBox from '../components/PostBox'
 
 const Home: NextPage = () => {
   return (
-    <div className="">
+    <div className="max-w-5xl mt-7 mx-auto">
       <Head>
         <title>Reddit Like App</title>
       </Head>
@@ -13,7 +13,7 @@ const Home: NextPage = () => {
       <PostBox />
 
       {/* Feed */}
-      <div></div>
+      <div className='flex'></div>
     </div>
   )
 }
