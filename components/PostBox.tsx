@@ -25,7 +25,6 @@ function PostBox() {
     const {register, setValue, handleSubmit, watch, formState: {errors}} = useForm<FormData>()
 
     const onSubmit = handleSubmit(async(formData) => {
-      console.log(formData)
       const notification = toast.loading('Creating new Post...')
 
       try {
@@ -37,7 +36,7 @@ function PostBox() {
               topic: formData.subreddit
             }
           })
-        
+
           const subredditExists = getSubredditListByTopic.length > 0;
 
           if(!subredditExists) {
@@ -48,7 +47,7 @@ function PostBox() {
                 variables: {
                   topic: formData.subreddit
                 }
-              })
+              });
 
             console.log('Creating a post...', formData)
             const image = formData.postImage || '';
@@ -99,7 +98,7 @@ function PostBox() {
         toast.error('Something went wrong...', {
           id: notification
         })
-        console.log(error)
+        console.error(error)
       }
     })
     
@@ -139,7 +138,7 @@ function PostBox() {
                 {...register('subreddit', {required: true})} 
                 type="text" 
                 className='m-2 flex-1 bg-blue-50 p-2 outline-none'
-                placeholder='i.e. Hello World' 
+                placeholder='i.e. Programming' 
               />
             </div>
 

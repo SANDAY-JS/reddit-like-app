@@ -1,37 +1,36 @@
-import {gql} from '@apollo/client';
+import { gql } from '@apollo/client'
 
 export const ADD_POST = gql`
-    mutation MyMutation (
-        $body: String!
-        $image: String!
-        $subreddit: String!
-        $title: String!
-        $username: String!
+  mutation MyMutation(
+    $body: String!
+    $title: String!
+    $image: String!
+    $username: String!
+    $subreddit_id: ID!
+  ) {
+    insertPost(
+      body: $body
+      image: $image
+      title: $title
+      username: $username
+      subreddit_id: $subreddit_id
     ) {
-        insertPost(
-            body: $body
-            image: $image
-            subreddit: $subreddit
-            title: $title
-            username: $username
-        ) {
-            body
-            created_at
-            id
-            image
-            subreddit_id
-            title
-            username
-        }
+      id
+      body
+      image
+      title
+      username
+      subreddit_id
     }
+  }
 `
 
 export const ADD_SUBREDDIT = gql`
-    mutation MyMutation($topic: String!) {
-        insertSubreddit(topic: $topic) {
-            id
-            topic
-            created_at
-        }
+  mutation MyMutation($topic: String!) {
+    insertSubreddit(topic: $topic) {
+      id
+      topic
+      created_at
     }
+  }
 `

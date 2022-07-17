@@ -14,6 +14,21 @@ type Post {
   subreddit_id: ID
   title: String
   username: String
+  votes: [Vote]
+    @materializer(
+      query: "getVotesByPostId"
+      arguments: [{ name: "post_id", field: "id" }]
+    )
+  comments: [Comment]
+    @materializer(
+      query: "getCommentsByPostId"
+      arguments: [{ name: "post_id", field: "id" }]
+    )
+  subreddit: [Subreddit]
+    @materializer(
+      query: "getSubredditListById"
+      arguments: [{ name: "id", field: "subreddit_id" }]
+    )
 }
 
 type Subreddit {
@@ -26,7 +41,7 @@ type Vote {
   created_at: DateTime
   id: ID!
   post_id: ID
-  upvote: Boolean
+  upvote: Int
   username: String
 }
 
@@ -76,10 +91,22 @@ type Query {
   getPostList: [Post]
     @dbquery(
       type: "postgresql"
-      schema: "public"
-      table: "post"
+      query: """
+      select * from "public"."post" as "post" order by "post"."created_at" desc
+      """
       configuration: "postgresql_config"
     )
+
+  getPostListByTopic(topic: String!): [Post]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select *, "post".id as id from "public"."post" as "post"
+      join "public"."subreddit" on "public"."subreddit".id = "post"."subreddit_id" where "public"."subreddit"."topic" = $1 order by "post"."created_at" desc
+      """
+      configuration: "postgresql_config"
+    )
+
   getSubredditList: [Subreddit]
     @dbquery(
       type: "postgresql"
@@ -92,8 +119,19 @@ type Query {
     @dbquery(
       type: "postgresql"
       query: """
-      select * from "subreddit" where "topic" = $1
+      select * from "public"."subreddit" where "topic" = $1
       """
+      table: "subreddit"
+      configuration: "postgresql_config"
+    )
+
+  getSubredditListById(id: ID!): [Subreddit]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."subreddit" where "id" = $1
+      """
+      table: "subreddit"
       configuration: "postgresql_config"
     )
 
@@ -102,6 +140,25 @@ type Query {
       type: "postgresql"
       schema: "public"
       table: "vote"
+      configuration: "postgresql_config"
+    )
+
+  getVotesByPostId(id: ID!): [Vote]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."vote" where "post_id" = $1
+      """
+      table: "vote"
+      configuration: "postgresql_config"
+    )
+  getCommentsByPostId(id: ID!): [Comment]
+    @dbquery(
+      type: "postgresql"
+      query: """
+      select * from "public"."comment" where "post_id" = $1
+      """
+      table: "comment"
       configuration: "postgresql_config"
     )
 }
@@ -127,13 +184,12 @@ type Mutation {
 
   insertSubreddit(topic: String!): Subreddit
     @dbquery(
-      type: "subreddit"
+      type: "postgresql"
       schema: "public"
       table: "subreddit"
       dml: INSERT
       configuration: "postgresql_config"
     )
-
   """
   In this mutation example you can see how to do a mutation to delete data from the database.
   """
