@@ -92,7 +92,8 @@ type Query {
     @dbquery(
       type: "postgresql"
       query: """
-      select * from "public"."post" as "post" order by "post"."created_at" desc
+      select * from "public"."post" as "post" 
+      order by "post"."created_at" desc
       """
       configuration: "postgresql_config"
     )
@@ -102,7 +103,9 @@ type Query {
       type: "postgresql"
       query: """
       select *, "post".id as id from "public"."post" as "post"
-      join "public"."subreddit" on "public"."subreddit".id = "post"."subreddit_id" where "public"."subreddit"."topic" = $1 order by "post"."created_at" desc
+      join "public"."subreddit" on "public"."subreddit".id = "post"."subreddit_id" 
+      where "public"."subreddit"."topic" = $1 
+      order by "post"."created_at" desc
       """
       configuration: "postgresql_config"
     )
@@ -152,6 +155,7 @@ type Query {
       table: "vote"
       configuration: "postgresql_config"
     )
+    
   getCommentsByPostId(id: ID!): [Comment]
     @dbquery(
       type: "postgresql"

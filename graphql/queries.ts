@@ -20,13 +20,6 @@ export const GET_ALL_POSTS = gql`
       username
       image
       subreddit_id
-      votes {
-        id
-        upvote
-        username
-        created_at
-        post_id
-      }
       comments {
         text
         username
@@ -38,6 +31,13 @@ export const GET_ALL_POSTS = gql`
         id
         topic
         created_at
+      }
+      votes {
+        id
+        upvote
+        username
+        created_at
+        post_id
       }
     }
   }
