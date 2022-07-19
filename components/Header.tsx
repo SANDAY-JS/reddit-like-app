@@ -17,7 +17,7 @@ function Header() {
         <div className="relative h-10 w-20 flex-shrink-0">
             <Link href={'/'}>
                 <a>
-                    <Image src={'https://links.papareact.com/fqy'} layout='fill' objectFit='contain' />
+                    <Image src={'https://links.papareact.com/fqy'} layout='fill' objectFit='contain' priority />
                 </a>
             </Link>
         </div>
