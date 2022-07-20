@@ -4,30 +4,30 @@ export const GET_POST_BY_POST_ID = gql`
 query MyQuery($post_id: ID!) {
   getPostByPostId(post_id: $post_id) {
     created_at
-    body
     id
-    image
-    subreddit {
-      created_at
-      id
-      topic
-    }
-    subreddit_id
-    username
+    body
     title
-    comment {
+    username
+    image
+    subreddit_id
+    comments {
       created_at
       id
       post_id
       text
       username
     }
-    votes {
-      created_at
+    subreddit {
       id
-      post_id
+      topic
+      created_at
+    }
+    votes {
+      id
       upvote
       username
+      created_at
+      post_id
     }
   }
 }`
