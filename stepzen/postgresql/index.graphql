@@ -51,6 +51,9 @@ type Query {
       type: "postgresql"
       schema: "public"
       table: "comment"
+      query: """
+      select * from "public"."comment"
+      """
       configuration: "postgresql_config"
     )
   """
@@ -110,12 +113,12 @@ type Query {
       configuration: "postgresql_config"
     )
   
-  getPostByPostId(id: ID!): Post
+  getPostByPostId(post_id: ID!): Post
 		@dbquery(
 			type: "postgresql"
 			query: """
-			select * from "post"
-			         where "post"."id" = $1
+			select * from "public"."post" as "post"
+			where "post"."id" = $1
 			"""
 			configuration: "postgresql_config"
 		)
@@ -166,11 +169,12 @@ type Query {
       configuration: "postgresql_config"
     )
     
-  getCommentsByPostId(id: ID!): [Comment]
+  getCommentsByPostId(post_id: ID!): [Comment]
     @dbquery(
       type: "postgresql"
       query: """
       select * from "public"."comment" where "post_id" = $1
+      order by "created_at" desc
       """
       table: "comment"
       configuration: "postgresql_config"
@@ -201,6 +205,15 @@ type Mutation {
       type: "postgresql"
       schema: "public"
       table: "subreddit"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+
+  insertComment(post_id: ID!, username: String!, text: String!): Comment
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
       dml: INSERT
       configuration: "postgresql_config"
     )
