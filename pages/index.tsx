@@ -5,7 +5,7 @@ import PostBox from '../components/PostBox'
 
 const Home: NextPage = () => {
   return (
-    <div className="max-w-5xl mt-7 mx-auto">
+    <div className="max-w-5xl my-7 mx-auto">
       <Head>
         <title>Reddit Like App</title>
         <link rel="shortcut icon" href="/images/reddit-face.jpeg" type="image/x-icon" />
