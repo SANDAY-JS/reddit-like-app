@@ -1,8 +1,7 @@
+import React, { useEffect } from 'react'
 import { useQuery } from '@apollo/client'
-import { useSession } from 'next-auth/react'
-import React from 'react'
-import { GET_ALL_POSTS, GET_ALL_POSTS_BY_TOPIC } from '../graphql/queries'
 import Post from './Post'
+import { GET_ALL_POSTS, GET_ALL_POSTS_BY_TOPIC } from '../graphql/queries'
 
 type Props = {
   topic?: string
@@ -15,7 +14,7 @@ function Feed({topic}: Props) {
 
   const posts: Post[] = !topic ? data?.getPostList : data?.getPostListByTopic;
 
-  const {data: session} = useSession()
+  useEffect(() => console.log(posts), [posts])
 
   return (
     <div className='mt-5 space-y-4'>

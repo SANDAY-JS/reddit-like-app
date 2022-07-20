@@ -19,8 +19,6 @@ type Props = {
 }
 
 function Post({post}: Props) {
-  useEffect(() => console.log(post), [post])
-
   if(!post) 
     return (
       <div className='flex w-full items-center justify-center p-10 text-xl'>

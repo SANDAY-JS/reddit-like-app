@@ -11,7 +11,7 @@ type Post = {
     subreddit: Subreddit[]
 }
   
-type Comments = {
+type Comment = {
   id: number
   post_id: number
   text: string
