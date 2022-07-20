@@ -14,11 +14,11 @@ type Post {
   subreddit_id: ID
   title: String
   username: String
-  # votes: [Vote]
-    # @materializer(
-    #   query: "getVotesByPostId"
-    #   arguments: [{ name: "post_id", field: "id" }]
-    # )
+  votes: [Vote]
+    @materializer(
+      query: "getVotesByPostId"
+      arguments: [{ name: "post_id", field: "id" }]
+    )
   comments: [Comment]
     @materializer(
       query: "getCommentsByPostId"
@@ -51,6 +51,9 @@ type Query {
       type: "postgresql"
       schema: "public"
       table: "comment"
+      query: """
+      select * from "public"."comment"
+      """
       configuration: "postgresql_config"
     )
   """
