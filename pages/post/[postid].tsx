@@ -1,7 +1,7 @@
+import React from 'react'
 import { useMutation, useQuery } from '@apollo/client';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import TimeAgo from 'timeago-react';
@@ -21,7 +21,7 @@ function PostPage() {
     refetchQueries: [GET_POST_BY_POST_ID, 'getPostByPostId']
   })
   const {data, error} = useQuery(GET_POST_BY_POST_ID, {
-    variables: {post_id: router.query.postId}
+    variables: {post_id: router.query.postid}
   })
   const post: Post = data?.getPostByPostId;
 
@@ -34,7 +34,7 @@ function PostPage() {
     try {
       await addComment({
         variables: {
-          post_id: router.query.postId,
+          post_id: router.query.postid,
           username: session?.user?.name,
           text: data.comment
         }
@@ -45,9 +45,6 @@ function PostPage() {
       toast.error("Posting Failed.", {id: notification})
     }
   }
-
-  useEffect(() => console.log(post), [post])
-
 
   return (
     <div className='mx-auto my-7 max-w-5xl'>
