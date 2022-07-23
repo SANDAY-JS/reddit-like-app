@@ -7,7 +7,7 @@ import SubredditRow from '../components/SubredditRow'
 import { GET_SUBREDDITS_WITH_LIMIT } from '../graphql/queries'
 
 const Home: NextPage = () => {
-  const { data } = useQuery(GET_SUBREDDITS_WITH_LIMIT, {
+  const { data, loading } = useQuery(GET_SUBREDDITS_WITH_LIMIT, {
     variables: {
       limit: 10,
     },
@@ -30,9 +30,9 @@ const Home: NextPage = () => {
           <p className='text-md mb-1 p-4 pb-3 font-bold'>Top Communities</p>
 
           <div>
-            {subreddits?.map((subreddit, i) => (
+            {!loading ? subreddits?.map((subreddit, i) => (
               <SubredditRow key={subreddit.id} topic={subreddit.topic} index={i} />
-            ))}
+            )) : Array(10).fill('').map((_,i) => <SubredditRow key={i} topic={'hi'} index={i} loading={loading}/>)}
           </div>
         </div>
       </div>
