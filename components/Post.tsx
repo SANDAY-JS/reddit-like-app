@@ -24,6 +24,7 @@ type Props = {
 
 function Post({post}: Props) {
   const [vote, setVote] = useState<boolean>()
+  // const [hasVotedTo, setHasVotedTo] = useState<boolean | null>(null)
   const {data: session} = useSession()
 
   const {data, loading} = useQuery(GET_ALL_VOTES_BY_POST_ID, {
@@ -42,28 +43,44 @@ function Post({post}: Props) {
 
     if(vote && isUpvote) return;
     if(vote === false && !isUpvote) return;
-
-    console.log('voting...', isUpvote)
+    console.log('VOTING')
 
     try {
-      const {data: {insertVote: newVote}} =
-        await addVote({
-          variables: {
-            post_id: post.id,
-            username: session.user?.name,
-            upvote: isUpvote
-          }
-        })
+      if(vote) {
+        // await deleteVote({})
+      }
+      await addVote({
+        variables: {
+          post_id: post.id,
+          username: session.user?.name,
+          upvote: isUpvote
+        }
+      })
+      console.log('VOTED')
     } catch (error) {
       console.log(error)
     }
   }
 
+  const displayVotes = (data: any) => {
+    const votes: Vote[] = data?.getVotesByPostId;
+    const displayNumber = votes?.reduce((total, vote) => vote.upvote ? total += 1 : total -= 1, 0)
+
+    if(votes?.length === 0) return 0;
+    if(displayNumber === 0) return votes[0]?.upvote ? 1 : -1;
+
+    return displayNumber;
+  }
+
   useEffect(() => {
     const votes: Vote[] = data?.getVotesByPostId;
 
-    const vote = votes?.find(vote => vote.username === session?.user?.name)?.upvote
+    const findVotes = votes?.find(vote => vote.username === session?.user?.name);
+    const vote = findVotes?.upvote
     setVote(vote)
+
+    // if(!findVotes) return;
+    // setHasVotedTo(vote ? true : false)
   }, [data])
 
   if(!post) 
@@ -79,7 +96,7 @@ function Post({post}: Props) {
           {/* Votes */}
           <div className='flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400'>
               <ArrowUpIcon onClick={() => upVote(true)} className={`voteButtons hover:text-red-400 cursor-pointer ${vote && 'text-red-400'}`} />
-              <p className='text-black font-bold text-xs'>0</p>
+              <p className='text-black font-bold text-xs'>{displayVotes(data)}</p>
               <ArrowDownIcon onClick={() => upVote(false)} className={`voteButtons hover:text-blue-400 cursor-pointer ${vote === false && 'text-blue-400'}`} />
           </div>
 
