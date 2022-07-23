@@ -41,7 +41,7 @@ type Vote {
   created_at: DateTime
   id: ID!
   post_id: ID
-  upvote: Int
+  upvote: Boolean
   username: String
 }
 
@@ -159,11 +159,12 @@ type Query {
       configuration: "postgresql_config"
     )
 
-  getVotesByPostId(id: ID!): [Vote]
+  getVotesByPostId(post_id: ID!): [Vote]
     @dbquery(
       type: "postgresql"
       query: """
       select * from "public"."vote" where "post_id" = $1
+      order by "created_at" desc
       """
       table: "vote"
       configuration: "postgresql_config"
@@ -205,6 +206,15 @@ type Mutation {
       type: "postgresql"
       schema: "public"
       table: "subreddit"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+
+  insertVote(post_id: ID!, username: String!, upvote: Boolean!): Vote
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "vote"
       dml: INSERT
       configuration: "postgresql_config"
     )
