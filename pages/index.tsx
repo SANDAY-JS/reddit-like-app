@@ -32,7 +32,7 @@ const Home: NextPage = () => {
           <div>
             {!loading ? subreddits?.map((subreddit, i) => (
               <SubredditRow key={subreddit.id} topic={subreddit.topic} index={i} />
-            )) : Array(10).fill('').map((_,i) => <SubredditRow key={i} topic={'hi'} index={i} loading={loading}/>)}
+            )) : Array(10).fill('').map((_,i) => <SubredditRow key={i} topic={''} index={i} loading={loading}/>)}
           </div>
         </div>
       </div>
