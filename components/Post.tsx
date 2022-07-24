@@ -16,7 +16,8 @@ import { useSession } from 'next-auth/react'
 import toast from 'react-hot-toast'
 import { useMutation, useQuery } from '@apollo/client'
 import { GET_ALL_VOTES_BY_POST_ID } from '../graphql/queries'
-import { ADD_VOTE } from '../graphql/mutations'
+import { ADD_VOTE, DELETE_VOTE } from '../graphql/mutations'
+import PostShadow from './skeleton/PostShadow'
 
 type Props = {
     post: Post;
@@ -24,7 +25,6 @@ type Props = {
 
 function Post({post}: Props) {
   const [vote, setVote] = useState<boolean>()
-  // const [hasVotedTo, setHasVotedTo] = useState<boolean | null>(null)
   const {data: session} = useSession()
 
   const {data, loading} = useQuery(GET_ALL_VOTES_BY_POST_ID, {
@@ -32,6 +32,9 @@ function Post({post}: Props) {
   })
 
   const [addVote] = useMutation(ADD_VOTE, {
+    refetchQueries: [GET_ALL_VOTES_BY_POST_ID, 'getVotesByPostId']
+  })
+  const [deleteVote] = useMutation(DELETE_VOTE, {
     refetchQueries: [GET_ALL_VOTES_BY_POST_ID, 'getVotesByPostId']
   })
 
@@ -47,7 +50,7 @@ function Post({post}: Props) {
 
     try {
       if(vote) {
-        // await deleteVote({})
+        await deleteVote({})
       }
       await addVote({
         variables: {
@@ -85,9 +88,7 @@ function Post({post}: Props) {
 
   if(!post) 
     return (
-      <div className='flex w-full items-center justify-center p-10 text-xl'>
-        <Jelly size={50} color='#FF4501' />
-      </div>
+      <PostShadow />
     )
 
   return (

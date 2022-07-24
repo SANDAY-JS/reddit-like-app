@@ -16,6 +16,7 @@
     "react-dom": "18.1.0",
     "react-hook-form": "^7.33.1",
     "react-hot-toast": "^2.3.0",
+    "react-loading-skeleton": "^3.1.0",
     "timeago-react": "^3.0.5"
   },
   "devDependencies": {
