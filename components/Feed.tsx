@@ -2,6 +2,7 @@ import React from 'react'
 import { useQuery } from '@apollo/client'
 import Post from './Post'
 import { GET_ALL_POSTS, GET_ALL_POSTS_BY_TOPIC } from '../graphql/queries'
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 
 type Props = {
   topic?: string
@@ -15,7 +16,13 @@ function Feed({topic}: Props) {
   const posts: Post[] = !topic ? data?.getPostList : data?.getPostListByTopic;
 
   if(loading) {
-    return <div className='mt-5 space-y-4 min-w-full sm:min-w-[400px] sm:flex-1 min-h-screen' />
+    return (
+      <div className='mt-5 space-y-4 min-w-full sm:min-w-[400px] sm:flex-1 min-h-screen'>
+        {Array(4).fill('').map((_,i) => (
+          <Post key={i} post={_} />
+        ))}
+      </div>
+    )
   }
 
   return (
