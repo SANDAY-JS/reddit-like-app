@@ -5,7 +5,7 @@ import Avatar from '../Avatar'
 
 function PostShadow() {
   return (
-    <div className='flex rounded-md border border-gray-300 bg-white shadow-sm'>
+    <div className='flex rounded-md border border-gray-300 bg-white shadow-sm overflow-hidden'>
         {/* Votes */}
         <div className='flex flex-col items-center justify-start w-14 h-full space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400'>
             <ArrowUpIcon className='text-gray-200' />
@@ -13,7 +13,7 @@ function PostShadow() {
             <ArrowDownIcon className='text-gray-200' />
         </div>
 
-        <div className='p-3 pb-1'>
+        <div className='p-3 pb-1 overflow-hidden max-w-xs sm:max-w-none'>
           {/* Header */}
           <div className='flex items-center space-x-2'>
             <Avatar loading />
