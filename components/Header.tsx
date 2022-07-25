@@ -22,14 +22,14 @@ function Header() {
             </Link>
         </div>
 
-        <div className='mx-7 flex items-center xl:min-w-[300px]'>
+        <div className='hidden sm:flex mx-7 items-center xl:min-w-[300px]'>
             <HomeIcon className='w-5 h-5' />
             <p className='flex-1 ml-2 hidden lg:inline'>Home</p>
             <ChevronDownIcon className='w-5 h-5' />
         </div>
 
         {/* Search Box */}
-        <form onSubmit={(e) => handleSubmit(e)} className='flex flex-1 items-center space-x-2 border border-gray-200 rounded-sm px-3 py-1'>
+        <form onSubmit={(e) => handleSubmit(e)} className='flex flex-1 items-center space-x-2 border border-gray-200 rounded-sm px-3 py-1 ml-2 sm:ml-0'>
             <SearchIcon className='h-6 w-6 text-gray-400' />
             <input className='flex-1 outline-none' type="text" placeholder='Search Reddit' />
             <button type='submit' hidden />

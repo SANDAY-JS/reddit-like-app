@@ -11,7 +11,6 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Avatar from './Avatar'
 import TimeAgo from 'timeago-react'
-import { Jelly } from '@uiball/loaders'
 import { useSession } from 'next-auth/react'
 import toast from 'react-hot-toast'
 import { useMutation, useQuery } from '@apollo/client'
@@ -93,7 +92,7 @@ function Post({post}: Props) {
 
   return (
     <Link href={`/post/${post.id}`}>
-      <div className='flex cursor-pointer rounded-md border border-gray-300 bg-white shadow-sm hover:border-gray-600'>
+      <div className='flex cursor-pointer rounded-md border border-gray-300 bg-white shadow-sm hover:border-gray-600 overflow-hidden'>
           {/* Votes */}
           <div className='flex flex-col items-center justify-start space-y-1 rounded-l-md bg-gray-50 p-4 text-gray-400'>
               <ArrowUpIcon onClick={() => upVote(true)} className={`voteButtons hover:text-red-400 cursor-pointer ${vote && 'text-red-400'}`} />
@@ -123,13 +122,15 @@ function Post({post}: Props) {
               </div>
 
               {/* Image */}
-              <img className='w-full' src={post.image} alt="" />
+              <div className="max-w-[90%] w-full sm:max-w-none overflow-hidden">
+                <img className='w-full' src={post.image} alt="" />
+              </div>
 
               {/* Footer */}
-              <div className="flex space-x-4 text-gray-400">
+              <div className="flex space-x-4 text-gray-400 overflow-hidden">
                 <div className='postButtons'>
                   <ChatIcon className='h-6 w-6' />
-                  <p>{post.comments.length} Comments</p>
+                  <p>{post.comments.length} <span className='hidden sm:inline'>Comments</span></p>
                 </div>
                 <div className='postButtons'>
                   <GiftIcon className='h-6 w-6' />

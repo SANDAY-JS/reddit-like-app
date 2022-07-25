@@ -47,7 +47,7 @@ function PostPage() {
   }
 
   return (
-    <div className='mx-auto my-7 max-w-5xl'>
+    <div className='mx-auto my-7 max-w-5xl w-[95%] sm:w-auto'>
         <Post post={post} />
 
         <div className='-mt-1 rounded-b-md border border-t-0 border-gray-300 bg-white p-5  pl-16'>

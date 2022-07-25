@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const subreddits: Subreddit[] = data?.getSubredditListLimit
 
   return (
-    <div className="max-w-5xl my-7 mx-auto">
+    <div className="max-w-5xl my-7 mx-auto w-[95%] sm:w-auto">
       <Head>
         <title>Reddit Like App</title>
         <link rel="shortcut icon" href="/images/reddit-face.jpeg" type="image/x-icon" />
