@@ -108,7 +108,7 @@ function PostBox({subreddit}: Props) {
     
 
   return (
-    <form onSubmit={onSubmit} className='sticky top-16 z-50 rounded-md border border-gray-300 bg-white p-2'>
+    <form onSubmit={onSubmit} className='sticky top-16 z-40 rounded-md border border-gray-300 bg-white p-2'>
         <div className='flex items-center space-x-3 overflow-hidden'>
             <Avatar />
 

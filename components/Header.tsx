@@ -1,11 +1,13 @@
-import React, { FormEvent } from 'react'
+import React, { FormEvent, useState } from 'react'
 import Image from 'next/image'
 import {MenuIcon, SparklesIcon, GlobeIcon, VideoCameraIcon, ChatIcon, BellIcon, PlusIcon, SpeakerphoneIcon} from '@heroicons/react/outline';
 import {HomeIcon, ChevronDownIcon, SearchIcon} from '@heroicons/react/solid';
 import { useSession, signIn, signOut } from "next-auth/react"
 import Link from 'next/link';
+import Avatar from './Avatar';
 
 function Header() {
+    const [menuOpen, setMenuOpen] = useState<boolean>(false)
     const {data: session} = useSession()
 
     function handleSubmit (e: FormEvent) {
@@ -45,17 +47,37 @@ function Header() {
             <PlusIcon className='icon' />
             <SpeakerphoneIcon className='icon' />
         </div>
-        <div className='ml-5 flex items-center lg:hidden'>
-            <MenuIcon className='icon' />
+        <div className='ml-5 flex items-center lg:hidden z-[70]'>
+            <div className="w-full h-full">
+                <MenuIcon onClick={() => setMenuOpen(!menuOpen)} className='icon' />
+            </div>
+        </div>
+        <div className={`absolute top-0 right-0 ${menuOpen ? 'block' : 'hidden'} w-2/5 h-screen z-[50] lg:hidden`}>
+            <div className={`w-full h-full bg-gray-50 flex-col py-12 px-3 shadow-lg z-[100]`}>
+                {/* Sign in/out */}
+                {session ? (
+                    <div onClick={() => signOut()} className="flex items-center space-x-2 border border-gray-500 p-2 w-full">
+                        <Avatar />
+                        <div className='flex-1 text-xs'>
+                            <p className="truncate">{session?.user?.name}</p>
+                            <p className='text-gray-500 whitespace-nowrap w-full'>Sign Out</p>
+                        </div>
+                        <ChevronDownIcon className='text-gray-400 h-5 flex-shrink-0 ' />
+                    </div>
+                ) : (
+                    <div onClick={() => signIn()} className="flex items-center space-x-2 border border-gray-500 p-2 w-32">
+                        <div className='relative h-5 w-5 flex-shrink-0'>
+                            <Image src="/images/reddit-face.jpeg" className='h-full w-full' layout='fill' objectFit='cover' />
+                        </div>
+                        <p className='text-gray-500 whitespace-nowrap w-full'>Sign In</p>
+                    </div>
+                )}
+            </div>
         </div>
 
         {/* Sign in/out */}
         {session ? (
             <div onClick={() => signOut()} className="hidden lg:flex items-center space-x-2 border border-gray-500 p-2 w-32 cursor-pointer">
-                {/* <div className='relative h-5 w-5 flex-shrink-0'>
-                    <Image src="/images/reddit-face.jpeg" className='h-full w-full' layout='fill' />
-                </div> */}
-
                 <div className='flex-1 text-xs'>
                     <p className="truncate">{session?.user?.name}</p>
                     <p className='text-gray-500 whitespace-nowrap w-full'>Sign Out</p>
@@ -64,11 +86,11 @@ function Header() {
                 <ChevronDownIcon className='text-gray-400 h-5 flex-shrink-0 ' />
             </div>
         ) : (
-            <div onClick={() => signIn()} className="hidden lg:flex items-center space-x-2 border border-gray-500 p-2 w-32 cursor-pointer">
-                <div className='relative h-5 w-5 flex-shrink-0'>
+            <div onClick={() => signIn()} className="hidden lg:flex items-center space-x-2 border bg-gray-100 border-gray-500 p-2 w-32 cursor-pointer">
+                <div className='relative h-8 w-8 flex-shrink-0'>
                     <Image src="/images/reddit-face.jpeg" className='h-full w-full' layout='fill' objectFit='contain' />
-                    <p className='text-gray-500 whitespace-nowrap w-full'>Sign In</p>
                 </div>
+                <p className='text-gray-500 whitespace-nowrap w-full'>Sign In</p>
             </div>
         )}
     </div>
